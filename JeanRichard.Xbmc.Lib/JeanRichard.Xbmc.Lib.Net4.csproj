@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0EAAE72F-25C1-4C10-982A-7259D12175DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JeanRichard.Xbmc.Lib</RootNamespace>
+    <AssemblyName>JeanRichard.Xbmc.Lib.Net4</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clients\AudioLibrary.cs" />
+    <Compile Include="Clients\PlayerBase.cs" />
+    <Compile Include="Clients\XbmcEntities\ActivePlayer.cs" />
+    <Compile Include="Clients\XbmcEntities\MediaItemList.cs" />
+    <Compile Include="Clients\XbmcEntities\PlayerPosition.cs" />
+    <Compile Include="Clients\XbmcEntities\SeekJumps.cs" />
+    <Compile Include="Clients\XbmcEntities\SetAudioStreamMode.cs" />
+    <Compile Include="Clients\XbmcEntities\SpeedChange.cs" />
+    <Compile Include="Clients\XbmcEntities\SpeedNumeric.cs" />
+    <Compile Include="Clients\XbmcEntities\SubtitleMode.cs" />
+    <Compile Include="JsonCoverters\EnumFlagsConverter.cs" />
+    <Compile Include="JsonCoverters\ParamConverter.cs" />
+    <Compile Include="JsonCoverters\ParamObjectConverter.cs" />
+    <Compile Include="JsonHelpers\JObjectExtensions.cs" />
+    <Compile Include="JsonRpc\JsonRpcItem.cs" />
+    <Compile Include="JsonRpc\HttpClient\ErrorData.cs" />
+    <Compile Include="JsonRpc\JsonParam.cs" />
+    <Compile Include="JsonRpc\JsonRpcException.cs" />
+    <Compile Include="JsonRpc\JsonError.cs" />
+    <Compile Include="JsonRpc\JsonRequest.cs" />
+    <Compile Include="JsonRpc\HttpClient\JsonRpcHttpClient.cs" />
+    <Compile Include="JsonRpc\JsonResult.cs" />
+    <Compile Include="JsonRpc\JsonRpcObject.cs" />
+    <Compile Include="JsonRpc\JsonRpcSerializer.cs" />
+    <Compile Include="Clients\XbmcServer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XbmcEntities\Audio\Details\Album.cs" />
+    <Compile Include="XbmcEntities\Audio\Details\Artist.cs" />
+    <Compile Include="XbmcEntities\Audio\Details\AudioDetailsBase.cs" />
+    <Compile Include="XbmcEntities\Audio\Details\Media.cs" />
+    <Compile Include="XbmcEntities\Audio\Details\Song.cs" />
+    <Compile Include="XbmcEntities\Audio\Fields\AlbumFields.cs" />
+    <Compile Include="XbmcEntities\Audio\Fields\ArtistFields.cs" />
+    <Compile Include="XbmcEntities\Audio\Fields\SongFields.cs" />
+    <Compile Include="XbmcEntities\Global\Time.cs" />
+    <Compile Include="XbmcEntities\Item\ItemDetailsBase.cs" />
+    <Compile Include="XbmcEntities\List\Fields\AllFields.cs" />
+    <Compile Include="XbmcEntities\List\Item\MediaItemTypes.cs" />
+    <Compile Include="XbmcEntities\List\Limits.cs" />
+    <Compile Include="XbmcEntities\List\LimitsReturned.cs" />
+    <Compile Include="XbmcEntities\List\Orders.cs" />
+    <Compile Include="XbmcEntities\List\Sort.cs" />
+    <Compile Include="XbmcEntities\List\SortMethods.cs" />
+    <Compile Include="XbmcEntities\Media\MediaDetailsBase.cs" />
+    <Compile Include="XbmcEntities\Player\Audio\AudioStream.cs" />
+    <Compile Include="XbmcEntities\Player\Audio\ExtendedAudioStream.cs" />
+    <Compile Include="XbmcEntities\Player\PlayerSpeed.cs" />
+    <Compile Include="XbmcEntities\Player\PlayerTypes.cs" />
+    <Compile Include="XbmcEntities\Player\Property\PlayerProperties.cs" />
+    <Compile Include="XbmcEntities\Player\Property\PlayerPropertyFields.cs" />
+    <Compile Include="XbmcEntities\Player\Repeat.cs" />
+    <Compile Include="XbmcEntities\Player\Subtitle.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

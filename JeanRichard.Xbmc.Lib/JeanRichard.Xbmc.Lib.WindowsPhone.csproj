@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{84FA1C44-698C-47A4-8E50-149D3AAF8133}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JeanRichard.Xbmc.Lib</RootNamespace>
+    <AssemblyName>JeanRichard.Xbmc.Lib.WindowsPhone</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json.WindowsPhone">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\sl3-wp\Newtonsoft.Json.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\Json\Album.cs" />
+    <Compile Include="Interface\Json\Artist.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\IAudioLibraryClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlayer\IAudioPlayerClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\IAudioPlaylistClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\PlaylistInsertRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\PlaylistPlayRequest.cs" />
+    <Compile Include="Interface\Json\Fields\AlbumFields.cs" />
+    <Compile Include="Interface\Json\Fields\AllFields.cs" />
+    <Compile Include="Interface\Json\Fields\ArtistFields.cs" />
+    <Compile Include="Interface\Json\Fields\EpisodeFields.cs" />
+    <Compile Include="Interface\Json\Fields\MovieFields.cs" />
+    <Compile Include="Interface\Json\Fields\MovieSetFields.cs" />
+    <Compile Include="Interface\Json\Fields\MusicVideoFields.cs" />
+    <Compile Include="Interface\Json\Fields\SeasonFields.cs" />
+    <Compile Include="Interface\Json\Fields\SongFields.cs" />
+    <Compile Include="Interface\Json\Fields\TvShowFields.cs" />
+    <Compile Include="Interface\Json\Fields\VideoFields.cs" />
+    <Compile Include="Interface\Json\Genre.cs" />
+    <Compile Include="Interface\Json\Limits.cs" />
+    <Compile Include="Interface\Json\LimitsReturned.cs" />
+    <Compile Include="Interface\Json\Media.cs" />
+    <Compile Include="Interface\Json\Playlist\AudioItem.cs" />
+    <Compile Include="Interface\Json\Playlist\PlaylistItemId.cs" />
+    <Compile Include="Interface\Json\Playlist\PlaylistState.cs" />
+    <Compile Include="Interface\Json\Playlist\VideoItem.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\AlbumDetailsRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\AlbumDetailsResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\AlbumRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\AlbumResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\ArtistRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\ArtistResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\AudioLibraryClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\GenreResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\SongDetailsRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\SongDetailsResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\SongRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioLibrary\SongResponse.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlayer\AudioPlayerClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlayer\SeekRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\AudioPlaylistClient.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\PlaylistItemsRequest.cs" />
+    <Compile Include="Interface\Json\Clients\AudioPlaylist\PlaylistItemsResponse.cs" />
+    <Compile Include="Interface\Json\Clients\PlayerState.cs" />
+    <Compile Include="Interface\Json\Clients\SortableListRequest.cs" />
+    <Compile Include="Interface\Json\Clients\Time.cs" />
+    <Compile Include="Interface\Json\Song.cs" />
+    <Compile Include="Interface\Json\Sorting\Sort.cs" />
+    <Compile Include="Interface\Json\Sorting\SortMethods.cs" />
+    <Compile Include="Interface\Json\Sorting\SortOrder.cs" />
+    <Compile Include="Interface\Vfs\VfsService.cs" />
+    <Compile Include="JsonCoverters\EnumFlagsConverter.cs" />
+    <Compile Include="JsonRpc\HttpClient\JsonRpcHttpClient.cs" />
+    <Compile Include="JsonRpc\IJsonRpcClient.cs" />
+    <Compile Include="JsonRpc\JsonError.cs" />
+    <Compile Include="JsonRpc\JsonRequest.cs" />
+    <Compile Include="JsonRpc\JsonResult.cs" />
+    <Compile Include="JsonRpc\JsonRpcException.cs" />
+    <Compile Include="JsonRpc\JsonRpcObject.cs" />
+    <Compile Include="JsonRpc\JsonRpcSerializer.cs" />
+    <Compile Include="JsonRpc\SuccessResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
