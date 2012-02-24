@@ -19,13 +19,6 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc
     {
         private readonly IEnumerable<JsonParam> _parameters;
 
-        public JsonParamObject(string name, IEnumerable<JsonParam> parameters)
-            : base(name, null)
-        {
-            _parameters = parameters;
-            Value = this;
-        }
-
         public JsonParamObject(string name, params JsonParam[] parameters)
             : base(name, null)
         {

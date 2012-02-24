@@ -59,9 +59,8 @@
     <Compile Include="JsonCoverters\ParamObjectConverter.cs" />
     <Compile Include="JsonHelpers\JObjectExtensions.cs" />
     <Compile Include="JsonRpc\JsonRpcItem.cs" />
-    <Compile Include="JsonRpc\HttpClient\ErrorData.cs" />
+    <Compile Include="JsonRpc\ErrorData.cs" />
     <Compile Include="JsonRpc\JsonParam.cs" />
-    <Compile Include="JsonRpc\JsonRpcException.cs" />
     <Compile Include="JsonRpc\JsonError.cs" />
     <Compile Include="JsonRpc\JsonRequest.cs" />
     <Compile Include="JsonRpc\HttpClient\JsonRpcHttpClient.cs" />

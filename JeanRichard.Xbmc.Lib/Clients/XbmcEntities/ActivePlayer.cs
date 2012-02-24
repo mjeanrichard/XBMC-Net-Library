@@ -19,4 +19,3 @@ namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
         }
     }
 }
-

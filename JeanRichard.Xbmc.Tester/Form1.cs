@@ -11,6 +11,11 @@ namespace JeanRichard.Xbmc.Tester
 {
     public partial class Form1 : Form
     {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
         protected virtual void BeginExecuteRequest(string jsonRequest, Action<string> resultAction)
         {
             WebRequest webRequest = WebRequest.Create("http://192.168.175.35:8080/jsonrpc");
@@ -31,24 +36,6 @@ namespace JeanRichard.Xbmc.Tester
             webRequest.BeginGetResponse(ar => GetJsonResult(ar, resultAction), webRequest);
         }
 
-        protected void GetJsonResult(IAsyncResult asyncResult, Action<string> resultAction)
-        {
-            WebRequest webRequest = (WebRequest)asyncResult.AsyncState;
-
-            using (HttpWebResponse response = (HttpWebResponse)webRequest.EndGetResponse(asyncResult))
-            {
-                using (Stream stream = response.GetResponseStream())
-                {
-                    string jsonData;
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        jsonData = reader.ReadToEnd();
-                    }
-                    resultAction(jsonData);
-                }
-            }
-        }
-
         private string FormatJson(string unformatted)
         {
             try
@@ -66,17 +53,30 @@ namespace JeanRichard.Xbmc.Tester
                 }
                 lblError.Text = "";
                 return sbFormat.ToString();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 lblError.Text = e.Message;
                 return unformatted;
             }
         }
 
-
-        public Form1()
+        protected void GetJsonResult(IAsyncResult asyncResult, Action<string> resultAction)
         {
-            InitializeComponent();
+            WebRequest webRequest = (WebRequest)asyncResult.AsyncState;
+
+            using (HttpWebResponse response = (HttpWebResponse)webRequest.EndGetResponse(asyncResult))
+            {
+                using (Stream stream = response.GetResponseStream())
+                {
+                    string jsonData;
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        jsonData = reader.ReadToEnd();
+                    }
+                    resultAction(jsonData);
+                }
+            }
         }
 
         private void btnSend_Click(object sender, EventArgs e)

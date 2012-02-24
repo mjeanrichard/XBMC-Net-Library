@@ -192,7 +192,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public void Seek(Action<PlayerPosition, ErrorData> resultAction, decimal percentage)
         {
-            _client.Invoke("Player.Seek", PlayerPosition.LoadFrom, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", percentage));
+            _client.Invoke("Player.Seek", JsonRpcItem.LoadFrom<PlayerPosition>, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", percentage));
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public void Seek(Action<PlayerPosition, ErrorData> resultAction, Time time)
         {
-            _client.Invoke("Player.Seek", PlayerPosition.LoadFrom, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", time));
+            _client.Invoke("Player.Seek", JsonRpcItem.LoadFrom<PlayerPosition>, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", time));
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public void Seek(Action<PlayerPosition, ErrorData> resultAction, SeekJumps seekJump)
         {
-            _client.Invoke("Player.Seek", PlayerPosition.LoadFrom, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", seekJump));
+            _client.Invoke("Player.Seek", JsonRpcItem.LoadFrom<PlayerPosition>, resultAction, new JsonParam("playerid", PlayerId), new JsonParam("value", seekJump));
         }
 
         /// <summary>

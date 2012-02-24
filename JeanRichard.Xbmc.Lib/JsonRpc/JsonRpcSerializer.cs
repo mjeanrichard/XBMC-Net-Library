@@ -10,7 +10,7 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc
 {
     public class JsonRpcSerializer
     {
-        private JsonSerializerSettings _serializerSettings;
+        private readonly JsonSerializerSettings _serializerSettings;
 
         public JsonRpcSerializer()
         {

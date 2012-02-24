@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -11,14 +10,6 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc.HttpClient
 {
     public class JsonRpcHttpClient
     {
-        private static void CheckForErrors(JsonResult jsonResult)
-        {
-            if (jsonResult.Error != null)
-            {
-                throw new JsonRpcException(jsonResult.Error.Code, jsonResult.Error.Message, jsonResult);
-            }
-        }
-
         private readonly JsonRpcSerializer _serializer;
         private readonly Uri _uri;
 

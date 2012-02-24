@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JeanRichard.Xbmc.Lib.JsonRpc.HttpClient
+namespace JeanRichard.Xbmc.Lib.JsonRpc
 {
     public class ErrorData
     {

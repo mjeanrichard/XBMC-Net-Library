@@ -1,9 +1,9 @@
 ﻿using System;
 
+using JeanRichard.Xbmc.Lib.JsonHelpers;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using JeanRichard.Xbmc.Lib.JsonHelpers;
 
 namespace JeanRichard.Xbmc.Lib.JsonRpc
 {
