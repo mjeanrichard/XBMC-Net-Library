@@ -7,11 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class XbmcServer : IXbmcServer
+    public class XbmcServerClient : IXbmcServerClient
     {
         private readonly IRpcClient _client;
 
-        public XbmcServer(IRpcClient client)
+        public XbmcServerClient(IRpcClient client)
         {
             _client = client;
         }

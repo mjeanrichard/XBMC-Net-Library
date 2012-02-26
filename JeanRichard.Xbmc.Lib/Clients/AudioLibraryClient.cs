@@ -6,38 +6,18 @@ using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
-using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class AudioLibrary : IAudioLibrary
+    public class AudioLibraryClient : IAudioLibraryClient
     {
         private const AlbumFields DefaultAlbumProperties = AlbumFields.All;
         private const ArtistFields DefaultArtistProperties = ArtistFields.All;
         private const SongFields DefaultSongProperties = SongFields.All;
 
-        private static IEnumerable<JsonParam> GetLimitsParameter(int? startIndex, int? endIndex)
-        {
-            if (startIndex.HasValue || endIndex.HasValue)
-            {
-                Limits limits = new Limits();
-                limits.Start = startIndex ?? 0;
-                limits.End = endIndex;
-                yield return new JsonParam("limits", limits);
-            }
-        }
-
-        private static IEnumerable<JsonParam> GetOptionalParameter<T>(T? libraryId, string propertyName) where T : struct
-        {
-            if (libraryId.HasValue)
-            {
-                yield return new JsonParam(propertyName, libraryId);
-            }
-        }
-
         private readonly JsonRpcHttpClient _client;
 
-        public AudioLibrary(JsonRpcHttpClient client)
+        public AudioLibraryClient(JsonRpcHttpClient client)
         {
             _client = client;
         }
@@ -72,9 +52,9 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
-            parameters.AddRange(GetOptionalParameter(artistId, "artistid"));
-            parameters.AddRange(GetOptionalParameter(genreId, "genreid"));
-            parameters.AddRange(GetLimitsParameter(startIndex, endIndex));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(artistId, "artistid"));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
+            parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.Add(new JsonParam("properties", fields.HasValue ? fields : DefaultAlbumProperties));
 
             _client.Invoke("AudioLibrary.GetAlbums", JsonRpcItem.LoadFrom<MediaItemList<Album>>, resultAction, parameters.ToArray());
@@ -111,9 +91,9 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
-            parameters.AddRange(GetOptionalParameter(genreId, "genreid"));
-            parameters.AddRange(GetOptionalParameter(albumArtistsOnly, "albumartistsonly"));
-            parameters.AddRange(GetLimitsParameter(startIndex, endIndex));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(albumArtistsOnly, "albumartistsonly"));
+            parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.Add(new JsonParam("properties", fields.HasValue ? fields : DefaultArtistProperties));
 
             _client.Invoke("AudioLibrary.GetArtists", JsonRpcItem.LoadFrom<MediaItemList<Artist>>, resultAction, parameters.ToArray());
@@ -141,10 +121,10 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public void GetSongs(Action<MediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
-            parameters.AddRange(GetOptionalParameter(artistId, "artistid"));
-            parameters.AddRange(GetOptionalParameter(albumId, "albumid"));
-            parameters.AddRange(GetOptionalParameter(genreId, "genreid"));
-            parameters.AddRange(GetLimitsParameter(startIndex, endIndex));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(artistId, "artistid"));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(albumId, "albumid"));
+            parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
+            parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.Add(new JsonParam("properties", fields.HasValue ? fields : DefaultSongProperties));
 
             _client.Invoke("AudioLibrary.GetSongs", JsonRpcItem.LoadFrom<MediaItemList<Song>>, resultAction, parameters.ToArray());

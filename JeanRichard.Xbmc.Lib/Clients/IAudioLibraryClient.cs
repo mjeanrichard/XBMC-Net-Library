@@ -7,7 +7,7 @@ using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public interface IAudioLibrary
+    public interface IAudioLibraryClient
     {
         /// <summary>
         /// Retrieve details about a specific album

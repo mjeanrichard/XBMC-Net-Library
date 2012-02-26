@@ -10,7 +10,7 @@ using JeanRichard.Xbmc.Lib.XbmcEntities.Player.Property;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public interface IPlayer
+    public interface IPlayerClient
     {
         /// <summary>
         /// Returns all active players

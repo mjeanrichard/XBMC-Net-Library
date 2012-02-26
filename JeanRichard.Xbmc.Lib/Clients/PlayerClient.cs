@@ -4,25 +4,21 @@ using System.Collections.Generic;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
-using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Global;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
-using JeanRichard.Xbmc.Lib.XbmcEntities.List.Item;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Player;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Player.Property;
 
-using Newtonsoft.Json.Linq;
-
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class PlayerBase : IPlayer
+    public class PlayerClient : IPlayerClient
     {
         private static readonly PlayerPropertyFields[] DefaultPlayerProperties = new[] { PlayerPropertyFields.Type, PlayerPropertyFields.Percentage, PlayerPropertyFields.PlaylistId, PlayerPropertyFields.Position, PlayerPropertyFields.Time, PlayerPropertyFields.TotalTime, PlayerPropertyFields.Shuffled, PlayerPropertyFields.Partymode, PlayerPropertyFields.Repeat, PlayerPropertyFields.AudioStreams };
         private const AllFields ItemProperties = AllFields.Title | AllFields.Thumbnail | AllFields.Track | AllFields.Rating | AllFields.PlayCount | AllFields.FanArt | AllFields.Genre | AllFields.File | AllFields.ArtistId | AllFields.Artist | AllFields.AlbumId | AllFields.Album;
         private readonly IRpcClient _client;
 
-        public PlayerBase(IRpcClient client)
+        public PlayerClient(IRpcClient client)
         {
             _client = client;
         }
@@ -45,7 +41,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public void GetItem(Action<MediaDetailsBase, ErrorData> resultAction)
         {
-            _client.Invoke("Player.GetItem", t => MediaDetailsFactory(t.GetItem()), resultAction, new JsonParam("playerid", PlayerId), new JsonParam("properties", ItemProperties));
+            _client.Invoke("Player.GetItem", t => ClientUtils.CreateMediaDetails(t.GetItem()), resultAction, new JsonParam("playerid", PlayerId), new JsonParam("properties", ItemProperties));
         }
 
         /// <summary>
@@ -78,32 +74,6 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public void GoTo(Action<bool, ErrorData> resultAction, int position)
         {
             _client.InvokeForOkResult("Player.GoTo", resultAction, new JsonParam("playerid", PlayerId), new JsonParam("position", position));
-        }
-
-        private MediaDetailsBase MediaDetailsFactory(JToken jToken)
-        {
-            MediaItemTypes mediaType = jToken.ParseEnum<MediaItemTypes>("type");
-
-            int id = jToken.ParseSimpleValue("id", -1);
-            switch (mediaType)
-            {
-                case MediaItemTypes.Unknown:
-                    return null;
-                case MediaItemTypes.Movie:
-                    return null;
-                case MediaItemTypes.Episode:
-                    return null;
-                case MediaItemTypes.MusicVideo:
-                    return null;
-                case MediaItemTypes.Song:
-                    Song song = JsonRpcItem.LoadFrom<Song>(jToken);
-                    song.SongId = id;
-                    return song;
-                case MediaItemTypes.Picture:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         /// <summary>

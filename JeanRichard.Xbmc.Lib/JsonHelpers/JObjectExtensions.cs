@@ -64,6 +64,11 @@ namespace JeanRichard.Xbmc.Lib.JsonHelpers
 
         public static TArrayType[] ParseJsonObjectArray<TArrayType>(this JToken json) where TArrayType : JsonRpcItem, new()
         {
+            return ParseJsonObjectArray(json, JsonRpcItem.LoadFrom<TArrayType>);
+        }
+
+        public static TArrayType[] ParseJsonObjectArray<TArrayType>(this JToken json, Func<JToken, TArrayType> parser) where TArrayType : JsonRpcItem, new()
+        {
             if (json == null)
             {
                 return new TArrayType[0];
@@ -74,7 +79,7 @@ namespace JeanRichard.Xbmc.Lib.JsonHelpers
             }
 
             JArray array = (JArray)json;
-            return array.Select(JsonRpcItem.LoadFrom<TArrayType>).ToArray();
+            return array.Select(parser).ToArray();
         }
 
         public static TReturn ParseSimpleValue<TReturn>(this JToken json, string property, TReturn defaultValue)

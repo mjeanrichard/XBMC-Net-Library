@@ -44,14 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\AudioLibrary.cs" />
-    <Compile Include="Clients\IAudioLibrary.cs" />
-    <Compile Include="Clients\IPlayer.cs" />
-    <Compile Include="Clients\IXbmcServer.cs" />
-    <Compile Include="Clients\PlayerBase.cs" />
+    <Compile Include="Clients\AudioLibraryClient.cs" />
+    <Compile Include="Clients\ClientUtils.cs" />
+    <Compile Include="Clients\IAudioLibraryClient.cs" />
+    <Compile Include="Clients\IPlayerClient.cs" />
+    <Compile Include="Clients\IPlaylistClient.cs" />
+    <Compile Include="Clients\IXbmcServerClient.cs" />
+    <Compile Include="Clients\PlayerClient.cs" />
+    <Compile Include="Clients\PlaylistClient.cs" />
     <Compile Include="Clients\XbmcEntities\ActivePlayer.cs" />
+    <Compile Include="Clients\XbmcEntities\Extensions\MediaDetailsBase.cs" />
     <Compile Include="Clients\XbmcEntities\MediaItemList.cs" />
     <Compile Include="Clients\XbmcEntities\PlayerPosition.cs" />
+    <Compile Include="Clients\XbmcEntities\Playlist.cs" />
     <Compile Include="Clients\XbmcEntities\SeekJumps.cs" />
     <Compile Include="Clients\XbmcEntities\SetAudioStreamMode.cs" />
     <Compile Include="Clients\XbmcEntities\SpeedChange.cs" />
@@ -71,7 +76,7 @@
     <Compile Include="JsonRpc\JsonResult.cs" />
     <Compile Include="JsonRpc\JsonRpcObject.cs" />
     <Compile Include="JsonRpc\JsonRpcSerializer.cs" />
-    <Compile Include="Clients\XbmcServer.cs" />
+    <Compile Include="Clients\XbmcServerClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XbmcEntities\Audio\Details\Album.cs" />
     <Compile Include="XbmcEntities\Audio\Details\Artist.cs" />

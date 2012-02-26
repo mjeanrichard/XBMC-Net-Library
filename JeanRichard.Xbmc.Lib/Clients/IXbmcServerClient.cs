@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public interface IXbmcServer
+    public interface IXbmcServerClient
     {
         /// <summary>
         /// Retrieve the jsonrpc protocol version
