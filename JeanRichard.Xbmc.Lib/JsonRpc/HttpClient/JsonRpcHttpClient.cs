@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.JsonRpc.HttpClient
 {
-    public class JsonRpcHttpClient
+    public class JsonRpcHttpClient : IRpcClient
     {
         private readonly JsonRpcSerializer _serializer;
         private readonly Uri _uri;

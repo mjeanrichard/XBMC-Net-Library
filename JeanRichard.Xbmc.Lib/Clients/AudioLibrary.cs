@@ -10,7 +10,7 @@ using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class AudioLibrary
+    public class AudioLibrary : IAudioLibrary
     {
         private const AlbumFields DefaultAlbumProperties = AlbumFields.All;
         private const ArtistFields DefaultArtistProperties = ArtistFields.All;

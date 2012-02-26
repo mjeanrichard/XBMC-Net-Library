@@ -2,17 +2,16 @@
 
 using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
-using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 
 using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class XbmcServer
+    public class XbmcServer : IXbmcServer
     {
-        private readonly JsonRpcHttpClient _client;
+        private readonly IRpcClient _client;
 
-        public XbmcServer(JsonRpcHttpClient client)
+        public XbmcServer(IRpcClient client)
         {
             _client = client;
         }

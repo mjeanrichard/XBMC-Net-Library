@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
-using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Global;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
@@ -17,13 +16,13 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class PlayerBase
+    public class PlayerBase : IPlayer
     {
         private static readonly PlayerPropertyFields[] DefaultPlayerProperties = new[] { PlayerPropertyFields.Type, PlayerPropertyFields.Percentage, PlayerPropertyFields.PlaylistId, PlayerPropertyFields.Position, PlayerPropertyFields.Time, PlayerPropertyFields.TotalTime, PlayerPropertyFields.Shuffled, PlayerPropertyFields.Partymode, PlayerPropertyFields.Repeat, PlayerPropertyFields.AudioStreams };
         private const AllFields ItemProperties = AllFields.Title | AllFields.Thumbnail | AllFields.Track | AllFields.Rating | AllFields.PlayCount | AllFields.FanArt | AllFields.Genre | AllFields.File | AllFields.ArtistId | AllFields.Artist | AllFields.AlbumId | AllFields.Album;
-        private readonly JsonRpcHttpClient _client;
+        private readonly IRpcClient _client;
 
-        public PlayerBase(JsonRpcHttpClient client)
+        public PlayerBase(IRpcClient client)
         {
             _client = client;
         }

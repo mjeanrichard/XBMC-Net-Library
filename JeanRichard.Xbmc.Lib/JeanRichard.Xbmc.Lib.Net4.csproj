@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\AudioLibrary.cs" />
+    <Compile Include="Clients\IAudioLibrary.cs" />
+    <Compile Include="Clients\IPlayer.cs" />
+    <Compile Include="Clients\IXbmcServer.cs" />
     <Compile Include="Clients\PlayerBase.cs" />
     <Compile Include="Clients\XbmcEntities\ActivePlayer.cs" />
     <Compile Include="Clients\XbmcEntities\MediaItemList.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="JsonCoverters\ParamConverter.cs" />
     <Compile Include="JsonCoverters\ParamObjectConverter.cs" />
     <Compile Include="JsonHelpers\JObjectExtensions.cs" />
+    <Compile Include="JsonRpc\IRpcClient.cs" />
     <Compile Include="JsonRpc\JsonRpcItem.cs" />
     <Compile Include="JsonRpc\ErrorData.cs" />
     <Compile Include="JsonRpc\JsonParam.cs" />
