@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
 {
-    public class MediaItemList<TMedia> : JsonRpcItem where TMedia : MediaDetailsBase, new()
+    public class MediaItemList<TMedia> : JsonRpcItem, IMediaItemList<TMedia> where TMedia : MediaDetailsBase, new()
     {
         public MediaItemList(IEnumerable<TMedia> items, LimitsReturned limit)
         {

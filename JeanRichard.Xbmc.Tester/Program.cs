@@ -18,8 +18,10 @@ namespace JeanRichard.Xbmc.Tester
             PlayerClient playerClient = new PlayerClient(client);
             XbmcServerClient serverClient = new XbmcServerClient(client);
             PlaylistClient playlist = new PlaylistClient(client);
-            
-            //player.GetActivePlayers(ResultAction);
+
+            XbmcPlayer player = new XbmcPlayer { Id = 0 };
+            //playerClient.PlayPause(ResultAction, player);
+            playerClient.GetProperties(ResultAction, player);
             //player.GetItem(ResultAction);
             //player.GetProperties(Result);
             //player.Seek(ResultAction, 10);
@@ -38,7 +40,7 @@ namespace JeanRichard.Xbmc.Tester
             //server.Ping(ResultAction);
             //server.GetVersion(ResultAction);
 
-            playlist.Remove(ResultAction, new Playlist { Id = 0 }, 1);
+            //playlist.Remove(ResultAction, new Playlist { Id = 0 }, 1);
             //playlist.Add(ResultAction, new Playlist { Id = 0 }, new Album { Id = 470 });
             //playlist.GetItems(ResultAction, new Playlist { Id = 0 });
             //playlist.GetPlaylists(ResultAction);

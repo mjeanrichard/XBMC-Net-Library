@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
 {
-    public class ActivePlayer : JsonRpcItem
+    public class XbmcPlayer : JsonRpcItem
     {
         public int Id { get; set; }
         public string Type { get; set; }

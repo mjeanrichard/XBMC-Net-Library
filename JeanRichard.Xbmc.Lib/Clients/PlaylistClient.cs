@@ -15,7 +15,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
 {
     public class PlaylistClient : IPlaylistClient
     {
-        public static JsonParam GetMediaItemParam(MediaDetailsBase mediaItem)
+        protected static JsonParam GetMediaItemParam(MediaDetailsBase mediaItem)
         {
             Type typeName = mediaItem.GetType();
             string idName = null;
@@ -90,7 +90,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Get all items from playlist
         /// </summary>
-        public void GetItems(Action<MediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist)
+        public void GetItems(Action<IMediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist)
         {
             GetItems(resultAction, playlist, null, null, null);
         }
@@ -98,7 +98,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Get all items from playlist
         /// </summary>
-        public void GetItems(Action<MediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist, AllFields? fields, int? startIndex, int? endIndex)
+        public void GetItems(Action<IMediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist, AllFields? fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
             parameters.Add(new JsonParam("playlistid", playlist.Id));

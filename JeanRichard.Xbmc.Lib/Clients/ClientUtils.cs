@@ -68,5 +68,10 @@ namespace JeanRichard.Xbmc.Lib.Clients
                 yield return new JsonParam(propertyName, libraryId);
             }
         }
+
+        public static IEnumerable<JsonParam> GetSortOrderParameter(SortMethods? sortMethod, Orders? order)
+        {
+            yield return new JsonParam("sort", new Sort { Method = sortMethod ?? SortMethods.Title, Order = order ?? Orders.Descending, IgnoreArticle = true });
+        }
     }
 }

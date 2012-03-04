@@ -6,6 +6,7 @@ using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
+using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
@@ -33,28 +34,29 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all albums
         /// </summary>
-        public void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction)
+        public void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction)
         {
-            GetAlbums(resultAction, null, null, null, null, null);
+            GetAlbums(resultAction, null, null, null, null, null, null, null);
         }
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        public void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId)
+        public void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId)
         {
-            GetAlbums(resultAction, artistId, genreId, null, null, null);
+            GetAlbums(resultAction, artistId, genreId, null, null, null, null, null);
         }
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        public void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex)
+        public void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order)
         {
             List<JsonParam> parameters = new List<JsonParam>();
             parameters.AddRange(ClientUtils.GetOptionalParameter(artistId, "artistid"));
             parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
+            parameters.AddRange(ClientUtils.GetSortOrderParameter(sortMethod, order));
             parameters.Add(new JsonParam("properties", fields.HasValue ? fields : DefaultAlbumProperties));
 
             _client.Invoke("AudioLibrary.GetAlbums", JsonRpcItem.LoadFrom<MediaItemList<Album>>, resultAction, parameters.ToArray());
@@ -71,7 +73,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        public void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId)
+        public void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId)
         {
             GetArtists(resultAction, albumArtistsOnly, genreId, null, null, null);
         }
@@ -79,7 +81,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        public void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction)
+        public void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction)
         {
             GetArtists(resultAction, null, null, null, null, null);
         }
@@ -88,7 +90,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// Retrieve all artists
         /// </summary>
         /// <param name="albumArtistsOnly">Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used</param>
-        public void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex)
+        public void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
             parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
@@ -110,21 +112,22 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        public void GetSongs(Action<MediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId)
+        public void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId)
         {
-            GetSongs(resultAction, artistId, albumId, genreId, null, null, null);
+            GetSongs(resultAction, artistId, albumId, genreId, null, null, null, null, null);
         }
 
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        public void GetSongs(Action<MediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex)
+        public void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order)
         {
             List<JsonParam> parameters = new List<JsonParam>();
             parameters.AddRange(ClientUtils.GetOptionalParameter(artistId, "artistid"));
             parameters.AddRange(ClientUtils.GetOptionalParameter(albumId, "albumid"));
             parameters.AddRange(ClientUtils.GetOptionalParameter(genreId, "genreid"));
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
+            parameters.AddRange(ClientUtils.GetSortOrderParameter(sortMethod, order));
             parameters.Add(new JsonParam("properties", fields.HasValue ? fields : DefaultSongProperties));
 
             _client.Invoke("AudioLibrary.GetSongs", JsonRpcItem.LoadFrom<MediaItemList<Song>>, resultAction, parameters.ToArray());

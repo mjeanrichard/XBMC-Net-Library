@@ -4,6 +4,7 @@ using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
+using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
@@ -17,17 +18,17 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all albums
         /// </summary>
-        void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction);
+        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction);
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId);
+        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId);
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        void GetAlbums(Action<MediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex);
+        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
 
         /// <summary>
         /// Retrieve details about a specific artist
@@ -37,18 +38,18 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId);
+        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId);
 
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction);
+        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction);
 
         /// <summary>
         /// Retrieve all artists
         /// </summary>
         /// <param name="albumArtistsOnly">Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used</param>
-        void GetArtists(Action<MediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex);
+        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex);
 
         /// <summary>
         /// Retrieve details about a specific song
@@ -58,12 +59,12 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        void GetSongs(Action<MediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId);
+        void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId);
 
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        void GetSongs(Action<MediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex);
+        void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
 
         /// <summary>
         /// Scans the audio sources for new library items

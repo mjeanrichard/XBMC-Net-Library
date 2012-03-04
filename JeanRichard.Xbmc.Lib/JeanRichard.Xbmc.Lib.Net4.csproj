@@ -52,7 +52,8 @@
     <Compile Include="Clients\IXbmcServerClient.cs" />
     <Compile Include="Clients\PlayerClient.cs" />
     <Compile Include="Clients\PlaylistClient.cs" />
-    <Compile Include="Clients\XbmcEntities\ActivePlayer.cs" />
+    <Compile Include="Clients\XbmcEntities\IMediaItemList.cs" />
+    <Compile Include="Clients\XbmcEntities\XbmcPlayer.cs" />
     <Compile Include="Clients\XbmcEntities\Extensions\MediaDetailsBase.cs" />
     <Compile Include="Clients\XbmcEntities\MediaItemList.cs" />
     <Compile Include="Clients\XbmcEntities\PlayerPosition.cs" />
