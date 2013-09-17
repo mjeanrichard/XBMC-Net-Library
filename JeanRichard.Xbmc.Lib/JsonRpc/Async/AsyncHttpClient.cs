@@ -19,6 +19,7 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc.Async
         {
             _baseUri = baseUri;
             _serializer = serializer;
+            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
         }
 
         public async Task<TResult> PostAsync<TResult>(string methodName, Func<JToken, TResult> parser, params JsonParam[] parameters)

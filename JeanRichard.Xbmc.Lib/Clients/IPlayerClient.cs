@@ -73,17 +73,17 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Start playback of a slideshow with the pictures from the given directory
         /// </summary>
-        Task OpenAlbum(int albumId);
+        Task OpenLibraryItem(int itemId);
 
         /// <summary>
         /// Pauses or unpause playback and returns the new state
         /// </summary>
-        Task<PlayerSpeed> PlayPause(XbmcPlayer player);
+        Task<PlayerSpeed> PlayPauseToggle(XbmcPlayer player);
 
         /// <summary>
         /// Set the repeat mode of the player
         /// </summary>
-        Task Repeat(XbmcPlayer player, Repeat state);
+        Task SetRepeat(XbmcPlayer player, Repeat state);
 
         /// <summary>
         /// Rotates current picture
@@ -134,7 +134,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Shuffle items in the player
         /// </summary>
-        Task Shuffle(XbmcPlayer player);
+        Task ShuffleOn(XbmcPlayer player);
 
         /// <summary>
         /// Stops playback
@@ -144,7 +144,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Unshuffle items in the player
         /// </summary>
-        Task UnShuffle(XbmcPlayer player);
+        Task ShuffleOff(XbmcPlayer player);
 
         /// <summary>
         /// Zooms current picture
@@ -161,5 +161,10 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// Zoom out once
         /// </summary>
         Task ZoomOut(XbmcPlayer player);
+
+        /// <summary>
+        /// Shuffle items in the player
+        /// </summary>
+        Task ShuffleToggle(XbmcPlayer player);
     }
 }

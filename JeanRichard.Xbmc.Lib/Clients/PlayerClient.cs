@@ -9,6 +9,7 @@ using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Player;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Player.Property;
+using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
@@ -52,7 +53,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task GoNext(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.GoNext", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.GoTo", new JsonParam("playerid", player.Id), new JsonParam("to", "next"));
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task GoPrevious(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.GoPrevious", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.GoTo", new JsonParam("playerid", player.Id), new JsonParam("to", "previous"));
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task GoTo(int position, XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.GoTo", new JsonParam("playerid", player.Id), new JsonParam("position", position));
+            await _client.PostWithoutResult("Player.GoTo", new JsonParam("playerid", player.Id), new JsonParam("to", position));
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task MoveDown(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.MoveDown", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.Move", new JsonParam("playerid", player.Id), new JsonParam("direction", "down"));
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task MoveLeft(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.MoveLeft", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.Move", new JsonParam("playerid", player.Id), new JsonParam("direction", "left"));
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task MoveRight(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.MoveRight", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.Move", new JsonParam("playerid", player.Id), new JsonParam("direction", "right"));
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task MoveUp(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.MoveUp", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.Move", new JsonParam("playerid", player.Id), new JsonParam("direction", "up"));
         }
 
         /// <summary>
@@ -108,7 +109,15 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task Open(int playlistId, int playlistPosition)
         {
-            await _client.PostWithoutResult("Player.Open", new JsonParam("playlistid", playlistId), new JsonParam("position", playlistPosition));
+            await _client.PostWithoutResult("Player.Open", new JsonParamObject("item", new JsonParam("playlistid", playlistId), new JsonParam("position", playlistPosition)));
+        }
+
+        /// <summary>
+        /// Start playback of the playlist Position
+        /// </summary>
+        public async Task Open(int playlistPosition)
+        {
+            await _client.PostWithoutResult("Player.Open", new JsonParam("item", playlistPosition));
         }
 
         /// <summary>
@@ -120,27 +129,19 @@ namespace JeanRichard.Xbmc.Lib.Clients
         }
 
         /// <summary>
-        /// Start playback of a slideshow with the pictures from the given directory
+        /// Start playback of a album
         /// </summary>
-        public async Task OpenAlbum(int albumId)
+        public async Task OpenLibraryItem(int itemId)
         {
-            await _client.PostWithoutResult("Player.Open", new JsonParamObject("item", new JsonParam("albumid", albumId)));
+            await _client.PostWithoutResult("Player.Open", new JsonParamObject("item", new JsonParam("channelid", itemId)));
         }
 
         /// <summary>
         /// Pauses or unpause playback and returns the new state
         /// </summary>
-        public async Task<PlayerSpeed> PlayPause(XbmcPlayer player)
+        public async Task<PlayerSpeed> PlayPauseToggle(XbmcPlayer player)
         {
             return await _client.PostAsync("Player.PlayPause", JsonRpcItem.LoadFrom<PlayerSpeed>, new JsonParam("playerid", player.Id));
-        }
-
-        /// <summary>
-        /// Set the repeat mode of the player
-        /// </summary>
-        public async Task Repeat(XbmcPlayer player, Repeat state)
-        {
-            await _client.PostWithoutResult("Player.Repeat",  new JsonParam("playerid", player.Id), new JsonParam("state", state));
         }
 
         /// <summary>
@@ -193,6 +194,14 @@ namespace JeanRichard.Xbmc.Lib.Clients
         }
 
         /// <summary>
+        /// Set the repeat mode of the player
+        /// </summary>
+        public async Task SetRepeat(XbmcPlayer player, Repeat state)
+        {
+            await _client.PostWithoutResult("Player.SetRepeat", new JsonParam("playerid", player.Id), new JsonParam("repeat", state));
+        }
+
+        /// <summary>
         /// Set the speed of the current playback
         /// </summary>
         public async Task<PlayerSpeed> SetSpeed(XbmcPlayer player, SpeedNumeric speed)
@@ -219,9 +228,17 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Shuffle items in the player
         /// </summary>
-        public async Task Shuffle(XbmcPlayer player)
+        public async Task ShuffleOn(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.Shuffle", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.SetShuffle", new JsonParam("playerid", player.Id), new JsonParam("shuffle", true));
+        }
+
+        /// <summary>
+        /// Shuffle items in the player
+        /// </summary>
+        public async Task ShuffleToggle(XbmcPlayer player)
+        {
+            await _client.PostWithoutResult("Player.SetShuffle", new JsonParam("playerid", player.Id), new JsonParam("shuffle", "toggle"));
         }
 
         /// <summary>
@@ -235,9 +252,9 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Unshuffle items in the player
         /// </summary>
-        public async Task UnShuffle(XbmcPlayer player)
+        public async Task ShuffleOff(XbmcPlayer player)
         {
-            await _client.PostWithoutResult("Player.UnShuffle", new JsonParam("playerid", player.Id));
+            await _client.PostWithoutResult("Player.SetShuffle", new JsonParam("playerid", player.Id), new JsonParam("shuffle", false));
         }
 
         /// <summary>
