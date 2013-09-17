@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
+using JeanRichard.Xbmc.Lib.JsonRpc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -12,6 +12,29 @@ namespace JeanRichard.Xbmc.Lib.JsonCoverters
     internal sealed class IntegralEnumAttribute : Attribute
     {}
 
+    public class XbmcFlagsConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            FlagsBase flags = (FlagsBase) value;
+            writer.WriteStartArray();
+            foreach (string flagValue in flags.Values)
+            {
+                writer.WriteValue(flagValue);
+            }
+            writer.WriteEndArray();
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(FlagsBase).IsAssignableFrom(objectType);
+        }
+    }
     public class EnumFlagsConverter : StringEnumConverter
     {
         private static IEnumerable<Enum> GetEnumValues(Type enumerationType)

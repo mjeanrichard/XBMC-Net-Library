@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
+using JeanRichard.Xbmc.Lib.JsonRpc.Async;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
@@ -18,7 +19,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         protected static JsonParam GetMediaItemParam(MediaDetailsBase mediaItem)
         {
             Type typeName = mediaItem.GetType();
-            string idName = null;
+            string idName;
             if (typeName == typeof(Song))
             {
                 idName = "songid";
@@ -38,9 +39,9 @@ namespace JeanRichard.Xbmc.Lib.Clients
             return new JsonParamObject("item", new JsonParam(idName, mediaItem.Id));
         }
 
-        private readonly IRpcClient _client;
+        private readonly AsyncHttpClient _client;
 
-        public PlaylistClient(IRpcClient client)
+        public PlaylistClient(AsyncHttpClient client)
         {
             _client = client;
         }
@@ -48,71 +49,71 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Clear playlist
         /// </summary>
-        public void Add(Action<bool, ErrorData> resultAction, Playlist playlist, MediaDetailsBase item)
+        public async Task Add(Playlist playlist, MediaDetailsBase item)
         {
             JsonParam itemParam = GetMediaItemParam(item);
-            _client.InvokeForOkResult("Playlist.Add", resultAction, new JsonParam("playlistid", playlist.Id), itemParam);
+            await _client.PostWithoutResult("Playlist.Add", new JsonParam("playlistid", playlist.Id), itemParam);
         }
 
         /// <summary>
         /// Insert item(s) into playlist. Does not work for picture playlists (aka slideshows).
         /// </summary>
-        public void Insert(Action<bool, ErrorData> resultAction, Playlist playlist, int position, MediaDetailsBase item)
+        public async Task Insert(Playlist playlist, int position, MediaDetailsBase item)
         {
             JsonParam itemParam = GetMediaItemParam(item);
-            _client.InvokeForOkResult("Playlist.Insert", resultAction, new JsonParam("playlistid", playlist.Id), new JsonParam("position", position), itemParam);
+            await _client.PostWithoutResult("Playlist.Insert", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position), itemParam);
         }
 
         /// <summary>
         /// Remove item from playlist. Does not work for picture playlists (aka slideshows).
         /// </summary>
-        public void Remove(Action<bool, ErrorData> resultAction, Playlist playlist, int position)
+        public async Task Remove(Playlist playlist, int position)
         {
-            _client.InvokeForOkResult("Playlist.Remove", resultAction, new JsonParam("playlistid", playlist.Id), new JsonParam("position", position));
+            await _client.PostWithoutResult("Playlist.Remove", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position));
         }
 
         /// <summary>
         /// Swap items in the playlist. Does not work for picture playlists (aka slideshows).
         /// </summary>
-        public void Swap(Action<bool, ErrorData> resultAction, Playlist playlist, int position1, int position2)
+        public async Task Swap(Playlist playlist, int position1, int position2)
         {
-            _client.InvokeForOkResult("Playlist.Swap", resultAction, new JsonParam("playlistid", playlist.Id), new JsonParam("position1", position1), new JsonParam("position2", position2));
+            await _client.PostWithoutResult("Playlist.Swap", new JsonParam("playlistid", playlist.Id), new JsonParam("position1", position1), new JsonParam("position2", position2));
         }
 
         /// <summary>
         /// Clear playlist
         /// </summary>
-        public void Clear(Action<bool, ErrorData> resultAction, Playlist playlist)
+        public async Task Clear(Playlist playlist)
         {
-            _client.InvokeForOkResult("Playlist.Clear", resultAction, new JsonParam("playlistid", playlist.Id));
+            await _client.PostWithoutResult("Playlist.Clear", new JsonParam("playlistid", playlist.Id));
         }
 
         /// <summary>
         /// Get all items from playlist
         /// </summary>
-        public void GetItems(Action<IMediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist)
+        public async Task<IMediaItemList<MediaDetailsBase>> GetItems(Playlist playlist)
         {
-            GetItems(resultAction, playlist, null, null, null);
+            return await GetItems(playlist, null, null, null);
         }
 
         /// <summary>
         /// Get all items from playlist
         /// </summary>
-        public void GetItems(Action<IMediaItemList<MediaDetailsBase>, ErrorData> resultAction, Playlist playlist, AllFields? fields, int? startIndex, int? endIndex)
+        public async Task<IMediaItemList<MediaDetailsBase>> GetItems(Playlist playlist, AllFields fields, int? startIndex, int? endIndex)
         {
             List<JsonParam> parameters = new List<JsonParam>();
             parameters.Add(new JsonParam("playlistid", playlist.Id));
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
-            parameters.Add(new JsonParam("properties", fields.HasValue ? fields : AllFields.All));
-            _client.Invoke("Playlist.GetItems", ParsePlaylistItems, resultAction, parameters.ToArray());
+            parameters.Add(new JsonParam("properties", fields ?? AllFields.All));
+            return await _client.PostAsync("Playlist.GetItems", ParsePlaylistItems, parameters.ToArray());
         }
 
         /// <summary>
         /// Returns all existing playlists
         /// </summary>
-        public void GetPlaylists(Action<IEnumerable<Playlist>, ErrorData> resultAction)
+        public async Task<IEnumerable<Playlist>> GetPlaylists()
         {
-            _client.Invoke("Playlist.GetPlaylists", o => o.ParseJsonObjectArray<Playlist>(), resultAction);
+            return await _client.PostAsync("Playlist.GetPlaylists", o => o.ParseJsonObjectArray<Playlist>());
         }
 
         private MediaItemList<MediaDetailsBase> ParsePlaylistItems(JToken token)

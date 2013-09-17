@@ -18,6 +18,7 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc
 
             _serializerSettings.Converters.Add(new EnumFlagsConverter());
             _serializerSettings.Converters.Add(new ParamConverter());
+            _serializerSettings.Converters.Add(new XbmcFlagsConverter());
             _serializerSettings.Converters.Add(new ParamObjectConverter());
 
             _serializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -28,6 +29,12 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc
             string jsonData = JsonConvert.SerializeObject(request, Formatting.Indented, _serializerSettings);
             byte[] buffer = Encoding.UTF8.GetBytes(jsonData);
             stream.Write(buffer, 0, buffer.Length);
+        }
+
+        public string Serialize<T>(T request) where T : JsonRpcObject
+        {
+            string jsonData = JsonConvert.SerializeObject(request, Formatting.Indented, _serializerSettings);
+            return jsonData;
         }
     }
 }

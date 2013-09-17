@@ -82,6 +82,21 @@ namespace JeanRichard.Xbmc.Lib.JsonHelpers
             return array.Select(parser).ToArray();
         }
 
+        public static TArrayType[] ParseSimpleArrayValue<TArrayType>(this JToken json, string property)
+        {
+            if (json == null)
+            {
+                return new TArrayType[0];
+            }
+            JArray selectToken = (JArray) json.SelectToken(property);
+            if (selectToken == null)
+            {
+                return new TArrayType[0];
+            }
+            TArrayType[] array = selectToken.Values<TArrayType>().ToArray();
+            return array;
+        }
+
         public static TReturn ParseSimpleValue<TReturn>(this JToken json, string property, TReturn defaultValue)
         {
             if (json == null)

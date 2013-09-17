@@ -1,5 +1,5 @@
 using System;
-
+using System.Threading.Tasks;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
@@ -13,62 +13,62 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Retrieve details about a specific album
         /// </summary>
-        void GetAlbum(Action<Album, ErrorData> resultAction, int albumId, AlbumFields? fields);
+        Task<Album> GetAlbum(int albumId, AlbumFields fields);
 
         /// <summary>
         /// Retrieve all albums
         /// </summary>
-        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction);
+        Task<IMediaItemList<Album>> GetAlbums();
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId);
+        Task<IMediaItemList<Album>> GetAlbums(int? artistId, int? genreId);
 
         /// <summary>
         /// Retrieve all albums from specified artist or genre
         /// </summary>
-        void GetAlbums(Action<IMediaItemList<Album>, ErrorData> resultAction, int? artistId, int? genreId, AlbumFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
+        Task<IMediaItemList<Album>> GetAlbums(int? artistId, int? genreId, AlbumFields fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
 
         /// <summary>
         /// Retrieve details about a specific artist
         /// </summary>
-        void GetArtist(Action<Artist, ErrorData> resultAction, int artistId, ArtistFields? fields);
+        Task<Artist> GetArtist(int artistId, ArtistFields fields);
 
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId);
+        Task<IMediaItemList<Artist>> GetArtists(bool? albumArtistsOnly, int? genreId);
 
         /// <summary>
         /// Retrieve all artists
         /// </summary>
-        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction);
+        Task<IMediaItemList<Artist>> GetArtists();
 
         /// <summary>
         /// Retrieve all artists
         /// </summary>
         /// <param name="albumArtistsOnly">Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used</param>
-        void GetArtists(Action<IMediaItemList<Artist>, ErrorData> resultAction, bool? albumArtistsOnly, int? genreId, ArtistFields? fields, int? startIndex, int? endIndex);
+        Task<IMediaItemList<Artist>> GetArtists(bool? albumArtistsOnly, int? genreId, ArtistFields fields, int? startIndex, int? endIndex);
 
         /// <summary>
         /// Retrieve details about a specific song
         /// </summary>
-        void GetSong(Action<Song, ErrorData> resultAction, int songId, SongFields? fields);
+        Task<Song> GetSong(int songId, SongFields fields);
 
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId);
+        Task<IMediaItemList<Song>> GetSongs(int? artistId, int? albumId, int? genreId);
 
         /// <summary>
         /// Retrieve all songs from specified album, artist or genre
         /// </summary>
-        void GetSongs(Action<IMediaItemList<Song>, ErrorData> resultAction, int? artistId, int? albumId, int? genreId, SongFields? fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
+        Task<IMediaItemList<Song>> GetSongs(int? artistId, int? albumId, int? genreId, SongFields fields, int? startIndex, int? endIndex, SortMethods? sortMethod, Orders? order);
 
         /// <summary>
         /// Scans the audio sources for new library items
         /// </summary>
-        void Scan(Action<bool, ErrorData> resultAction);
+        Task Scan();
     }
 }

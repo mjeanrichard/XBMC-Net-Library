@@ -13,6 +13,8 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc.HttpClient
         private readonly JsonRpcSerializer _serializer;
         private readonly Uri _uri;
 
+        private static readonly System.Net.Http.HttpClient _httpClient = new System.Net.Http.HttpClient();
+
         public JsonRpcHttpClient(JsonRpcSerializer serializer, Uri uri)
         {
             _serializer = serializer;
@@ -53,6 +55,11 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc.HttpClient
             {
                 using (Stream stream = response.GetResponseStream())
                 {
+                    if (resultAction == null)
+                    {
+                        return;
+                    }
+
                     string jsonData;
                     using (StreamReader reader = new StreamReader(stream))
                     {
