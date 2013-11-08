@@ -1,9 +1,5 @@
 ﻿using System;
-
-using JeanRichard.Xbmc.Lib.JsonHelpers;
-
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.JsonRpc
 {
@@ -15,16 +11,5 @@ namespace JeanRichard.Xbmc.Lib.JsonRpc
         public string Data { get; private set; }
 
         public string Message { get; private set; }
-
-        protected override void Parse(JToken json)
-        {
-            Code = json.ParseSimpleValue<int>("code");
-            Message = json.ParseSimpleValue<string>("message");
-            JToken dataToken = json.SelectToken("data");
-            if (dataToken != null)
-            {
-                Data = dataToken.ToString();
-            }
-        }
     }
 }

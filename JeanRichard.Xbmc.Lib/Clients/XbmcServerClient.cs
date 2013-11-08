@@ -1,6 +1,5 @@
 ﻿using System;
 
-using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 
 using Newtonsoft.Json.Linq;
@@ -22,7 +21,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <returns>The Version of the RPC Protocol.</returns>
         public void GetVersion(Action<int, ErrorData> resultAction)
         {
-            _client.Invoke("JSONRPC.Version", t => t.ParseSimpleValue<int>("version"), resultAction);
+            _client.Invoke("JSONRPC.Version", t => t.Value<int>("version"), resultAction);
         }
 
         /// <summary>

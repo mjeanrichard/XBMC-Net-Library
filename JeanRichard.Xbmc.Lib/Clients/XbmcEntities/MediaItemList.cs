@@ -1,16 +1,13 @@
-using System;
 using System.Collections.Generic;
-
-using JeanRichard.Xbmc.Lib.JsonHelpers;
+using JeanRichard.Xbmc.Lib.JsonCoverters;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List;
-using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
-
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
 {
-    public class MediaItemList<TMedia> : JsonRpcItem, IMediaItemList<TMedia> where TMedia : MediaDetailsBase, new()
+    [JsonConverter(typeof (ItemListConverter))]
+    public class MediaItemList<TMedia> : JsonRpcItem, IMediaItemList<TMedia>
     {
         public MediaItemList(IEnumerable<TMedia> items, LimitsReturned limit)
         {
@@ -18,25 +15,7 @@ namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
             Limit = limit;
         }
 
-        public MediaItemList()
-        {}
-
         public IEnumerable<TMedia> Items { get; private set; }
         public LimitsReturned Limit { get; private set; }
-
-        protected override void Parse(JToken json)
-        {
-            base.Parse(json);
-
-            foreach (JProperty property in json.Children<JProperty>())
-            {
-                if (!property.Name.Equals("limits", StringComparison.OrdinalIgnoreCase))
-                {
-                    Items = json.ParseJsonObjectArray<TMedia>(property.Name);
-                    break;
-                }
-            }
-            Limit = json.ParseJsonObject<LimitsReturned>("limits");
-        }
     }
 }

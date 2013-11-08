@@ -1,10 +1,18 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using JeanRichard.Xbmc.Lib.Clients;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonRpc;
+using JeanRichard.Xbmc.Lib.JsonRpc.Async;
 using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
+using JeanRichard.Xbmc.Lib.XbmcEntities.List;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Player.Property;
+using Newtonsoft.Json;
 
 namespace JeanRichard.Xbmc.Tester
 {
@@ -13,15 +21,24 @@ namespace JeanRichard.Xbmc.Tester
         private static void Main(string[] args)
         {
             JsonRpcSerializer serializer = new JsonRpcSerializer();
-            JsonRpcHttpClient client = new JsonRpcHttpClient(serializer, new Uri("http://192.168.175.35:8080/jsonrpc"));
-            AudioLibraryClient libraryClient = new AudioLibraryClient(client);
-            PlayerClient playerClient = new PlayerClient(client);
-            XbmcServerClient serverClient = new XbmcServerClient(client);
-            PlaylistClient playlist = new PlaylistClient(client);
+
+            AsyncHttpClient client = new AsyncHttpClient(serializer);
+            client.BaseUri = new Uri("http://Suffix:8080/jsonrpc");
+            AudioLibraryClient libraryClient = new AudioLibraryClient(client, serializer);
+            PlayerClient playerClient = new PlayerClient(client, serializer);
+            //XbmcServerClient serverClient = new XbmcServerClient(client);
+            PlaylistClient playlist = new PlaylistClient(client, serializer);
 
             XbmcPlayer player = new XbmcPlayer { Id = 0 };
             //playerClient.PlayPause(ResultAction, player);
-            playerClient.GetProperties(ResultAction, player);
+            PlayerProperties props = playerClient.GetProperties(player).Result;
+
+            IEnumerable<Playlist> playlists = playlist.GetPlaylists().Result;
+
+            IMediaItemList<MediaDetailsBase> items = playlist.GetItems(playlists.First()).Result;
+
+            var artists = libraryClient.GetArtists(null, null, ArtistFields.All, 0, 50, SortMethods.Album, Orders.Ascending).Result;
+
             //player.GetItem(ResultAction);
             //player.GetProperties(Result);
             //player.Seek(ResultAction, 10);
@@ -46,11 +63,6 @@ namespace JeanRichard.Xbmc.Tester
             //playlist.GetPlaylists(ResultAction);
 
             Console.ReadLine();
-        }
-
-        private static void ResultAction<TParam>(TParam data, ErrorData arg2)
-        {
-            
         }
     }
 }

@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
-using JeanRichard.Xbmc.Lib.JsonHelpers;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.JsonRpc.Async;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
-using JeanRichard.Xbmc.Lib.XbmcEntities.List;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 
-using Newtonsoft.Json.Linq;
-
 namespace JeanRichard.Xbmc.Lib.Clients
 {
-    public class PlaylistClient : IPlaylistClient
+    public class PlaylistClient : BaseClient, IPlaylistClient
     {
         protected static JsonParam GetMediaItemParam(MediaDetailsBase mediaItem)
         {
@@ -40,10 +36,12 @@ namespace JeanRichard.Xbmc.Lib.Clients
         }
 
         private readonly AsyncHttpClient _client;
+        private readonly JsonRpcSerializer _serializer;
 
-        public PlaylistClient(AsyncHttpClient client)
+        public PlaylistClient(AsyncHttpClient client, JsonRpcSerializer serializer)
         {
             _client = client;
+            _serializer = serializer;
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public async Task Add(Playlist playlist, MediaDetailsBase item)
         {
             JsonParam itemParam = GetMediaItemParam(item);
-            await _client.PostWithoutResult("Playlist.Add", new JsonParam("playlistid", playlist.Id), itemParam);
+            await _client.PostWithoutResultAsync("Playlist.Add", new JsonParam("playlistid", playlist.Id), itemParam);
         }
 
         /// <summary>
@@ -61,7 +59,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public async Task Insert(Playlist playlist, int position, MediaDetailsBase item)
         {
             JsonParam itemParam = GetMediaItemParam(item);
-            await _client.PostWithoutResult("Playlist.Insert", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position), itemParam);
+            await _client.PostWithoutResultAsync("Playlist.Insert", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position), itemParam);
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task Remove(Playlist playlist, int position)
         {
-            await _client.PostWithoutResult("Playlist.Remove", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position));
+            await _client.PostWithoutResultAsync("Playlist.Remove", new JsonParam("playlistid", playlist.Id), new JsonParam("position", position));
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task Swap(Playlist playlist, int position1, int position2)
         {
-            await _client.PostWithoutResult("Playlist.Swap", new JsonParam("playlistid", playlist.Id), new JsonParam("position1", position1), new JsonParam("position2", position2));
+            await _client.PostWithoutResultAsync("Playlist.Swap", new JsonParam("playlistid", playlist.Id), new JsonParam("position1", position1), new JsonParam("position2", position2));
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task Clear(Playlist playlist)
         {
-            await _client.PostWithoutResult("Playlist.Clear", new JsonParam("playlistid", playlist.Id));
+            await _client.PostWithoutResultAsync("Playlist.Clear", new JsonParam("playlistid", playlist.Id));
         }
 
         /// <summary>
@@ -105,7 +103,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
             parameters.Add(new JsonParam("playlistid", playlist.Id));
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.Add(new JsonParam("properties", fields ?? AllFields.All));
-            return await _client.PostAsync("Playlist.GetItems", ParsePlaylistItems, parameters.ToArray());
+            return await _client.PostAsync("Playlist.GetItems", _serializer.Parse<MediaItemList<MediaDetailsBase>>, parameters.ToArray());
         }
 
         /// <summary>
@@ -113,14 +111,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// </summary>
         public async Task<IEnumerable<Playlist>> GetPlaylists()
         {
-            return await _client.PostAsync("Playlist.GetPlaylists", o => o.ParseJsonObjectArray<Playlist>());
-        }
-
-        private MediaItemList<MediaDetailsBase> ParsePlaylistItems(JToken token)
-        {
-            LimitsReturned limits = token.ParseJsonObject<LimitsReturned>("limits");
-            MediaDetailsBase[] items = token.SelectToken("items").ParseJsonObjectArray(ClientUtils.CreateMediaDetails);
-            return new MediaItemList<MediaDetailsBase>(items, limits);
+            return await _client.PostAsync("Playlist.GetPlaylists", _serializer.Parse<IEnumerable<Playlist>>);
         }
     }
 }

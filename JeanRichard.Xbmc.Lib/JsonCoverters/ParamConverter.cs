@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using JeanRichard.Xbmc.Lib.Clients;
+using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonRpc;
-
+using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace JeanRichard.Xbmc.Lib.JsonCoverters
 {

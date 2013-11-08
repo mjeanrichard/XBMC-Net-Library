@@ -76,6 +76,11 @@ namespace JeanRichard.Xbmc.Lib.JsonCoverters
             return enumType.GetCustomAttributes(typeof(IntegralEnumAttribute), true).Any();
         }
 
+        public override bool CanConvert(Type objectType)
+        {
+            return base.CanConvert(objectType);
+        }
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var isFlagsEnum = IsFlagsEnum(objectType);
