@@ -60,6 +60,7 @@
     <Compile Include="Clients\BaseClient.cs" />
     <Compile Include="Clients\ClientUtils.cs" />
     <Compile Include="Clients\IAudioLibraryClient.cs" />
+    <Compile Include="Clients\IFilesClient.cs" />
     <Compile Include="Clients\IPlayerClient.cs" />
     <Compile Include="Clients\IPlaylistClient.cs" />
     <Compile Include="Clients\IXbmcServerClient.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="Clients\PlaylistClient.cs" />
     <Compile Include="Clients\XbmcEntities\IMediaItemList.cs" />
     <Compile Include="Clients\XbmcEntities\XbmcPlayer.cs" />
-    <Compile Include="Clients\XbmcEntities\MediaItemList.cs" />
+    <Compile Include="Clients\XbmcEntities\XbmcItemList.cs" />
     <Compile Include="Clients\XbmcEntities\PlayerPosition.cs" />
     <Compile Include="Clients\XbmcEntities\Playlist.cs" />
     <Compile Include="Clients\XbmcEntities\SeekJumps.cs" />

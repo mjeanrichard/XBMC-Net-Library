@@ -68,7 +68,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
                 parameters.Add(filter);
             }
 
-            return await _client.PostAsync("AudioLibrary.GetAlbums", _serializer.Parse<MediaItemList<Album>>, parameters.ToArray());
+            return await _client.PostAsync("AudioLibrary.GetAlbums", _serializer.Parse<XbmcItemList<Album>>, parameters.ToArray());
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.AddRange(ClientUtils.GetSortOrderParameter(sortMethod, order));
 
-            return await _client.PostAsync("AudioLibrary.GetArtists", t => _serializer.Parse<MediaItemList<Artist>>(t), parameters.ToArray());
+            return await _client.PostAsync("AudioLibrary.GetArtists", t => _serializer.Parse<XbmcItemList<Artist>>(t), parameters.ToArray());
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
             parameters.AddRange(ClientUtils.GetSortOrderParameter(sortMethod, order));
             parameters.Add(new JsonParam("properties", fields ?? DefaultSongProperties));
 
-            return await _client.PostAsync("AudioLibrary.GetSongs", _serializer.Parse<MediaItemList<Song>>, parameters.ToArray());
+            return await _client.PostAsync("AudioLibrary.GetSongs", _serializer.Parse<XbmcItemList<Song>>, parameters.ToArray());
         }
     }
 }

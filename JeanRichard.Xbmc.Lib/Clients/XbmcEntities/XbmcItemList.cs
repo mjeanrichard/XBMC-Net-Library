@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JeanRichard.Xbmc.Lib.JsonCoverters;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List;
@@ -7,11 +8,11 @@ using Newtonsoft.Json;
 namespace JeanRichard.Xbmc.Lib.Clients.XbmcEntities
 {
     [JsonConverter(typeof (ItemListConverter))]
-    public class MediaItemList<TMedia> : JsonRpcItem, IMediaItemList<TMedia>
+    public class XbmcItemList<TMedia> : JsonRpcItem, IMediaItemList<TMedia>
     {
-        public MediaItemList(IEnumerable<TMedia> items, LimitsReturned limit)
+        public XbmcItemList(IEnumerable<TMedia> items, LimitsReturned limit)
         {
-            Items = items;
+            Items = items ?? Enumerable.Empty<TMedia>();
             Limit = limit;
         }
 

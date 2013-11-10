@@ -36,9 +36,9 @@ namespace JeanRichard.Xbmc.Lib.JsonCoverters
                         limitsReturned = serializer.Deserialize<LimitsReturned>(reader);
                     }
                 }
-                if (itemsArray == null || limitsReturned == null)
+                if (limitsReturned == null)
                 {
-                    throw new InvalidOperationException("ItemsArray oder Limits nicht gefunden!");
+                    throw new InvalidOperationException("Limits nicht gefunden!");
                 }
 
                 return Activator.CreateInstance(objectType, itemsArray, limitsReturned);

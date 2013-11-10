@@ -10,6 +10,7 @@ using JeanRichard.Xbmc.Lib.JsonRpc.HttpClient;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Fields;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List;
+using JeanRichard.Xbmc.Lib.XbmcEntities.List.Item;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Player.Property;
 using Newtonsoft.Json;
@@ -28,6 +29,7 @@ namespace JeanRichard.Xbmc.Tester
             PlayerClient playerClient = new PlayerClient(client, serializer);
             //XbmcServerClient serverClient = new XbmcServerClient(client);
             PlaylistClient playlist = new PlaylistClient(client, serializer);
+            FilesClient files = new FilesClient(client, serializer);
 
             XbmcPlayer player = new XbmcPlayer { Id = 0 };
             //playerClient.PlayPause(ResultAction, player);
@@ -38,6 +40,9 @@ namespace JeanRichard.Xbmc.Tester
             IMediaItemList<MediaDetailsBase> items = playlist.GetItems(playlists.First()).Result;
 
             var artists = libraryClient.GetArtists(null, null, ArtistFields.All, 0, 50, SortMethods.Album, Orders.Ascending).Result;
+
+
+            var fs = files.GetMusicPlaylists().Result;
 
             //player.GetItem(ResultAction);
             //player.GetProperties(Result);

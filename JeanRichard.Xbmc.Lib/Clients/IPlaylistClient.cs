@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
-using JeanRichard.Xbmc.Lib.JsonRpc;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Item;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 
@@ -13,7 +12,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
         /// <summary>
         /// Clear playlist
         /// </summary>
-        Task Add(Playlist playlist, MediaDetailsBase item);
+        Task Add(Playlist playlist, XbmcItemBase item);
 
         /// <summary>
         /// Insert item(s) into playlist. Does not work for picture playlists (aka slideshows).

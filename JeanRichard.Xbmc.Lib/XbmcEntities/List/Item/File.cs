@@ -1,4 +1,5 @@
 using JeanRichard.Xbmc.Lib.JsonRpc;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Item;
 using Newtonsoft.Json;
 
 namespace JeanRichard.Xbmc.Lib.XbmcEntities.List.Item
@@ -39,10 +40,10 @@ namespace JeanRichard.Xbmc.Lib.XbmcEntities.List.Item
     ///  }
     ///}
     /// </json>
-    public class File : JsonRpcItem
+    public class File : XbmcItemBase
     {
         [JsonProperty(PropertyName = "file")]
-        public string Filename { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty(PropertyName = "filetype")]
         public FileType FileType { get; set; }

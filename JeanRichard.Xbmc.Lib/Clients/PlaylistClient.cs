@@ -5,36 +5,15 @@ using JeanRichard.Xbmc.Lib.Clients.XbmcEntities;
 using JeanRichard.Xbmc.Lib.JsonRpc;
 using JeanRichard.Xbmc.Lib.JsonRpc.Async;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Audio.Details;
+using JeanRichard.Xbmc.Lib.XbmcEntities.Item;
 using JeanRichard.Xbmc.Lib.XbmcEntities.List.Fields;
+using JeanRichard.Xbmc.Lib.XbmcEntities.List.Item;
 using JeanRichard.Xbmc.Lib.XbmcEntities.Media;
 
 namespace JeanRichard.Xbmc.Lib.Clients
 {
     public class PlaylistClient : BaseClient, IPlaylistClient
     {
-        protected static JsonParam GetMediaItemParam(MediaDetailsBase mediaItem)
-        {
-            Type typeName = mediaItem.GetType();
-            string idName;
-            if (typeName == typeof(Song))
-            {
-                idName = "songid";
-            }
-            else if (typeName == typeof(Artist))
-            {
-                idName = "artistid";
-            }
-            else if (typeName == typeof(Album))
-            {
-                idName = "albumid";
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("mediaItem", String.Format("MediaItemType [{0}] is unknown.", typeName));
-            }
-            return new JsonParamObject("item", new JsonParam(idName, mediaItem.Id));
-        }
-
         private readonly AsyncHttpClient _client;
         private readonly JsonRpcSerializer _serializer;
 
@@ -42,15 +21,6 @@ namespace JeanRichard.Xbmc.Lib.Clients
         {
             _client = client;
             _serializer = serializer;
-        }
-
-        /// <summary>
-        /// Clear playlist
-        /// </summary>
-        public async Task Add(Playlist playlist, MediaDetailsBase item)
-        {
-            JsonParam itemParam = GetMediaItemParam(item);
-            await _client.PostWithoutResultAsync("Playlist.Add", new JsonParam("playlistid", playlist.Id), itemParam);
         }
 
         /// <summary>
@@ -103,7 +73,7 @@ namespace JeanRichard.Xbmc.Lib.Clients
             parameters.Add(new JsonParam("playlistid", playlist.Id));
             parameters.AddRange(ClientUtils.GetLimitsParameter(startIndex, endIndex));
             parameters.Add(new JsonParam("properties", fields ?? AllFields.All));
-            return await _client.PostAsync("Playlist.GetItems", _serializer.Parse<MediaItemList<MediaDetailsBase>>, parameters.ToArray());
+            return await _client.PostAsync("Playlist.GetItems", _serializer.Parse<XbmcItemList<MediaDetailsBase>>, parameters.ToArray());
         }
 
         /// <summary>
@@ -112,6 +82,43 @@ namespace JeanRichard.Xbmc.Lib.Clients
         public async Task<IEnumerable<Playlist>> GetPlaylists()
         {
             return await _client.PostAsync("Playlist.GetPlaylists", _serializer.Parse<IEnumerable<Playlist>>);
+        }
+
+        protected static JsonParam GetMediaItemParam(XbmcItemBase mediaItem)
+        {
+            JsonParam param;
+            if (mediaItem is Song)
+            {
+                param = new JsonParam("songid", ((Song) mediaItem).Id);
+            }
+            else if (mediaItem is Artist)
+            {
+                param = new JsonParam("artistid", ((Artist) mediaItem).Id);
+            }
+            else if (mediaItem is Album)
+            {
+                param = new JsonParam("albumid", ((Album) mediaItem).Id);
+            }
+            else if (mediaItem is File)
+            {
+                File file = (File) mediaItem;
+                string idName = file.FileType == FileType.File ? "file" : "directory";
+                param = new JsonParam(idName, file.Name);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("mediaItem", String.Format("MediaItemType [{0}] is unknown.", mediaItem.GetType().FullName));
+            }
+            return new JsonParamObject("item", param);
+        }
+
+        /// <summary>
+        /// Add playlist Item
+        /// </summary>
+        public async Task Add(Playlist playlist, XbmcItemBase item)
+        {
+            JsonParam itemParam = GetMediaItemParam(item);
+            await _client.PostWithoutResultAsync("Playlist.Add", new JsonParam("playlistid", playlist.Id), itemParam);
         }
     }
 }
